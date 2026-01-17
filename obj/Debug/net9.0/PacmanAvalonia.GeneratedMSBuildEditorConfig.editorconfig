@@ -24,5 +24,11 @@ build_property.EnableCodeStyleSeverity =
 [/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/Views/GameView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/Views/MainMenuView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace PacmanAvalonia.Views;
 
-public partial class MainWindow : Window
+public partial class GameView : UserControl
 {
-    public MainWindow()
+    public GameView()
     {
         InitializeComponent();
     }
