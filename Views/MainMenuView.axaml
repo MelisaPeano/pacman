@@ -9,7 +9,7 @@
                 Spacing="10">
 
         <Button Content="Iniciar Juego"
-                Command="{Binding }" />
+                Command="{Binding StartGameCommand}" />
 
     </StackPanel>
 </UserControl>

@@ -2,16 +2,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="clr-namespace:PacmanAvalonia.ViewModels"
              x:Class="PacmanAvalonia.Views.GameView"
-             x:DataType="vm:GameViewModel">
+             x:DataType="vm:GameViewModel"
+             Focusable="True">
 
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="10">
+    <DockPanel>
+        
+        <StackPanel DockPanel.Dock="Top" 
+                    Orientation="Horizontal" 
+                    Background="Black" 
+                    Height="40">
+            <TextBlock Text="SCORE: " 
+                       Foreground="White" 
+                       FontWeight="Bold" 
+                       FontSize="20" 
+                       VerticalAlignment="Center" 
+                       Margin="20,0,0,0"/>
+            
+            <TextBlock Text="{Binding Score}" 
+                       Foreground="Yellow" 
+                       FontWeight="Bold" 
+                       FontSize="20" 
+                       VerticalAlignment="Center"
+                       Margin="5,0,0,0"/>
+        </StackPanel>
 
-        <TextBlock Text="Juego en progreso..." />
-
-        <Button Content="Volver al Menú"
-                Command="{Binding }" />
-
-    </StackPanel>
+        <Viewbox Stretch="Uniform"> <Canvas Name="GameCanvas" Background="Black" Width="600" Height="600"/>
+        </Viewbox>
+        
+    </DockPanel>
 </UserControl>
