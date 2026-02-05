@@ -5,29 +5,32 @@
              x:DataType="vm:GameViewModel"
              Focusable="True">
 
-    <DockPanel>
+    <Grid>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="Black">
+                <TextBlock Text="SCORE: " Foreground="White" Margin="10,0"/>
+                <TextBlock Text="{Binding Score}" Foreground="White" Margin="0,0,20,0"/>
         
-        <StackPanel DockPanel.Dock="Top" 
-                    Orientation="Horizontal" 
-                    Background="Black" 
-                    Height="40">
-            <TextBlock Text="SCORE: " 
-                       Foreground="White" 
-                       FontWeight="Bold" 
-                       FontSize="20" 
-                       VerticalAlignment="Center" 
-                       Margin="20,0,0,0"/>
-            
-            <TextBlock Text="{Binding Score}" 
-                       Foreground="Yellow" 
-                       FontWeight="Bold" 
-                       FontSize="20" 
-                       VerticalAlignment="Center"
-                       Margin="5,0,0,0"/>
-        </StackPanel>
+                <TextBlock Text="LIVES: " Foreground="White" Margin="10,0"/>
+                <TextBlock Text="{Binding Lives}" Foreground="Yellow" FontWeight="Bold"/>
+            </StackPanel>
+      
+            <Canvas Name="GameCanvas" Background="Black"/>
+        </DockPanel>
 
-        <Viewbox Stretch="Uniform"> <Canvas Name="GameCanvas" Background="Black" Width="600" Height="600"/>
-        </Viewbox>
-        
-    </DockPanel>
+        <Grid IsVisible="{Binding IsGameOver}" Background="#AA000000">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{Binding StatusMessage}" 
+                           FontSize="40" 
+                           Foreground="Red" 
+                           FontWeight="Bold" 
+                           HorizontalAlignment="Center"/>
+            
+                <TextBlock Text="Press Esc to Exit" 
+                           Foreground="White" 
+                           HorizontalAlignment="Center"
+                           Margin="0,20,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
 </UserControl>

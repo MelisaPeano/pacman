@@ -1,18 +1,14 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Shapes;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using PacmanAvalonia.ViewModels;
-using PacmanAvalonia.Models;
-using System.Collections.Generic;
-using PacmanAvalonia.Models.Entities;
+using PacmanAvalonia.Models.enums;
 using PacmanAvalonia.Services;
 namespace PacmanAvalonia.Views;
 
 public partial class GameView : UserControl
 {
-   private GameRenderer? _renderer; // Referencia al renderer
+    private GameRenderer? _renderer; 
 
     public GameView()
     {
@@ -23,20 +19,20 @@ public partial class GameView : UserControl
     
     private void OnViewLoaded(object? sender, RoutedEventArgs e)
     {
-        // Inicializamos el Renderer pasándole el Canvas del XAML
         var canvas = this.FindControl<Canvas>("GameCanvas");
-        if (canvas != null)
+        if (canvas is not null) // Sintaxis corregida
         {
             _renderer = new GameRenderer(canvas);
         }
 
-        if (DataContext is GameViewModel vm && _renderer != null)
+        // VERIFICACIÓN: Renderer y ViewModel no deben ser nulos
+        if (DataContext is GameViewModel vm && _renderer is not null)
         {
-            // Dibujo inicial
-            _renderer.Draw(vm.GameObjects);
+            // CORRECCIÓN CLAVE: Pasamos 'vm' completo, no la lista
+            _renderer.Draw(vm);
             
-            // Suscripción usando lambda simple
-            vm.RequestRedraw += () => _renderer.Draw(vm.GameObjects);
+            // Suscripción
+            vm.RequestRedraw += HandleRedraw;
         }
         
         this.Focus();
@@ -46,25 +42,24 @@ public partial class GameView : UserControl
     {
         if (DataContext is GameViewModel vm)
         {
-            // CORRECCIÓN: Nos desuscribimos limpiamente
             vm.RequestRedraw -= HandleRedraw;
         }
     }
 
-    // Método auxiliar para manejar el redibujado
     private void HandleRedraw()
     {
-        if (DataContext is GameViewModel vm && _renderer != null)
+        if (DataContext is GameViewModel vm && _renderer is not null)
         {
-            _renderer.Draw(vm.GameObjects);
+            // CORRECCIÓN CLAVE: Pasamos 'vm' completo
+            _renderer.Draw(vm);
         }
     }
+
     protected override void OnKeyDown(KeyEventArgs e)
     {
         base.OnKeyDown(e);
         if (DataContext is GameViewModel vm)
         {
-            // Tu lógica de input se mantiene igual, ¡estaba perfecta!
             switch (e.Key)
             {
                 case Key.Up:    vm.ChangeDirection(Direction.Up); break;
