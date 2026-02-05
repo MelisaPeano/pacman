@@ -1,0 +1,21 @@
+Q----------W Q---------W
+|oooooooooo| |ooooooooo|
+|oQ------>o| |o<-----Wo|
+|o|oooooooo| |ooooooo|o|
+|o|oQ---->o| |o<---Wo|o|
+|o|o|Oooooo| |ooooO|o|o|
+|o|o|oQ-->ov vo<-Wo|o|o|
+|ovovo|          |ovovo|
+|ooooo| Q-----W  |ooooo|
+A-----S |4   2|  A-----S
+              |C   P      
+Q-----W |1   3|  Q-----W
+|ooooo| A-----S  |ooooo|
+|o^o^o|          |o^o^o|
+|o|o|oA-->o^ ^o<-So|o|o|
+|o|o|Oooooo| |ooooO|o|o|
+|o|oA---->o| |o<---So|o|
+|o|oooooooo| |ooooooo|o|
+|oA------>o| |o<-----So|
+|oooooooooo| |ooooooooo|
+A----------S A---------S
