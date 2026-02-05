@@ -11,93 +11,95 @@ using PacmanAvalonia.ViewModels;
 
 namespace PacmanAvalonia.Services;
 
+/// <summary>
+/// Responsible for rendering the game state onto the Avalonia Canvas.
+/// Handles asset loading, sprite slicing, and drawing all game entities frame by frame.
+/// </summary>
 public class GameRenderer
 {
     private readonly Canvas _canvas;
     private const int TileSize = 30;
 
-    // --- IMÁGENES ---
     private readonly IImage _pacmanOpen;
     private readonly IImage _pacmanClosed;
     private readonly IImage _coinImg;
     private readonly IImage _powerImg;
     
-    // Fantasmas específicos
     private readonly IImage _ghostBlinky;
     private readonly IImage _ghostPinky;
-    private readonly IImage _ghostInky; // blueGhost.png (Tira horizontal)
+    private readonly IImage _ghostInky;
     private readonly IImage _ghostClyde;
     private readonly IImage _ghostVulnerable; 
     private readonly IImage _cherryRedImg;
     private readonly IImage _cherryBlueImg;
 
+    /// <summary>
+    /// Initializes a new instance of the GameRenderer class.
+    /// Loads all necessary image assets and prepares sprite cutouts.
+    /// </summary>
+    /// <param name="canvas">The Avalonia Canvas control where the game will be drawn.</param>
     public GameRenderer(Canvas canvas)
     {
         _canvas = canvas;
 
         try
         {
-            // --- CARGA DE ASSETS ---
             var pacmanSheet = LoadBitmap("Pacman.png");
-            
-            // Fantasmas
             var blinkySheet = LoadBitmap("GhostBlinky.png");
             var pinkySheet = LoadBitmap("GhostPinky.png");
             var clydeSheet = LoadBitmap("GhostClyde.png");
-            var vulnerableSheet = LoadBitmap("GhostBlue.png"); // El asustado clásico
+            var vulnerableSheet = LoadBitmap("GhostBlue.png");
             var inkySheet = LoadBitmap("blueGhost.png"); 
+            
             _cherryRedImg = LoadBitmap("Cherry.png");
             _cherryBlueImg = LoadBitmap("CherryInverted.png");
+            _coinImg = LoadBitmap("Dot.png");
+            _powerImg = LoadBitmap("Munchie.png");
 
-            // --- RECORTES ---
-
-            // 1. PACMAN (Grilla 3x4)
             int pmW = pacmanSheet.PixelSize.Width / 3;
             int pmH = pacmanSheet.PixelSize.Height / 4;
             _pacmanOpen = new CroppedBitmap(pacmanSheet, new PixelRect(0, 0, pmW, pmH));
             _pacmanClosed = new CroppedBitmap(pacmanSheet, new PixelRect(pmW * 1, 0, pmW, pmH));
 
-            // 2. FANTASMAS CLÁSICOS (Grilla 2x4)
-            // Blinky, Pinky, Clyde y Vulnerable tienen la misma estructura de cuadrícula
             int gW = blinkySheet.PixelSize.Width / 2;
             int gH = blinkySheet.PixelSize.Height / 4;
-
             _ghostBlinky = new CroppedBitmap(blinkySheet, new PixelRect(0, 0, gW, gH));
             _ghostPinky = new CroppedBitmap(pinkySheet, new PixelRect(0, 0, gW, gH));
             _ghostClyde = new CroppedBitmap(clydeSheet, new PixelRect(0, 0, gW, gH));
             _ghostVulnerable = new CroppedBitmap(vulnerableSheet, new PixelRect(0, 0, gW, gH));
 
-            // 3. INKY (blueGhost.png) - CORRECCIÓN
-            // Según tu imagen, es una TIRA HORIZONTAL de 8 fantasmas.
-            // Ancho = Total / 8. Alto = Total.
             int inkyW = inkySheet.PixelSize.Width / 8;
             int inkyH = inkySheet.PixelSize.Height; 
-
-            // Tomamos el primero de la izquierda
             _ghostInky = new CroppedBitmap(inkySheet, new PixelRect(0, 0, inkyW, inkyH));
-
-            // 4. OBJETOS
-            _coinImg = LoadBitmap("Dot.png");
-            _powerImg = LoadBitmap("Munchie.png");
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"ERROR CARGANDO ASSETS: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine($"Asset Loading Error: {ex.Message}");
             var empty = new WriteableBitmap(new PixelSize(1,1), new Vector(96,96), PixelFormat.Rgba8888);
-            _cherryRedImg = _cherryBlueImg = empty;
-            _pacmanOpen = _pacmanClosed = _ghostBlinky = _ghostPinky = _ghostInky = _ghostClyde = _ghostVulnerable = _coinImg = _powerImg = empty;
+            _cherryRedImg = empty;
+            _cherryBlueImg = empty;
+            _pacmanOpen = empty;
+            _pacmanClosed = empty;
+            _ghostBlinky = empty;
+            _ghostPinky = empty;
+            _ghostInky = empty;
+            _ghostClyde = empty;
+            _ghostVulnerable = empty;
+            _coinImg = empty;
+            _powerImg = empty;
         }
     }
 
-    private Bitmap LoadBitmap(string fileName)
-    {
-        var uri = new Uri($"avares://PacmanAvalonia/Assets/{fileName}");
-        return new Bitmap(AssetLoader.Open(uri));
-    }
-
+    /// <summary>
+    /// Clears the canvas and redraws the current state of the game based on the ViewModel data.
+    /// </summary>
+    /// <param name="vm">The ViewModel containing the current positions and states of all game objects.</param>
     public void Draw(GameViewModel vm)
     {
-        if (vm is null) return;
+        if (vm is null)
+        {
+            return;
+        }
 
         _canvas.Children.Clear();
         _canvas.Background = Brushes.Black;
@@ -113,22 +115,38 @@ public class GameRenderer
                 case Wall:
                     visual = new Avalonia.Controls.Shapes.Rectangle
                     {
-                        Width = TileSize, Height = TileSize,
-                        Fill = Brushes.Transparent, Stroke = Brushes.DarkBlue, StrokeThickness = 2
+                        Width = TileSize, 
+                        Height = TileSize,
+                        Fill = Brushes.Transparent, 
+                        Stroke = Brushes.DarkBlue, 
+                        StrokeThickness = 2
                     };
                     break;
                 
                 case Pacman:
                     IImage spriteToShow = vm.IsMouthOpen ? _pacmanOpen : _pacmanClosed;
-                    var pacImage = new Image { Source = spriteToShow, Width = TileSize, Height = TileSize };
+                    var pacImage = new Image 
+                    { 
+                        Source = spriteToShow, 
+                        Width = TileSize, 
+                        Height = TileSize 
+                    };
 
                     double angle = 0;
                     switch (vm.CurrentDirection)
                     {
-                        case Direction.Right: angle = 0; break;
-                        case Direction.Down:  angle = 90; break;
-                        case Direction.Left:  angle = 180; break;
-                        case Direction.Up:    angle = 270; break;
+                        case Direction.Right: 
+                            angle = 0; 
+                            break;
+                        case Direction.Down:  
+                            angle = 90; 
+                            break;
+                        case Direction.Left:  
+                            angle = 180; 
+                            break;
+                        case Direction.Up:    
+                            angle = 270; 
+                            break;
                     }
                     if (angle > 0)
                     {
@@ -140,18 +158,22 @@ public class GameRenderer
 
                 case Coin coin:
                     double size = coin.IsPowerPellet ? TileSize : 10; 
-                    visual = new Image { Source = coin.IsPowerPellet ? _powerImg : _coinImg, Width = size, Height = size };
+                    visual = new Image 
+                    { 
+                        Source = coin.IsPowerPellet ? _powerImg : _coinImg, 
+                        Width = size, 
+                        Height = size 
+                    };
                     x += (TileSize / 2) - (size / 2);
                     y += (TileSize / 2) - (size / 2);
                     break;
 
                 case Ghost ghost:
-                    // Seleccionar imagen según estado y tipo
                     IImage ghostSprite;
                     
                     if (ghost.State == GhostState.Vulnerable)
                     {
-                        ghostSprite = _ghostVulnerable; // GhostBlue.png (Grid)
+                        ghostSprite = _ghostVulnerable; 
                     }
                     else
                     {
@@ -165,11 +187,16 @@ public class GameRenderer
                         };
                     }
 
-                    visual = new Image { Source = ghostSprite, Width = TileSize, Height = TileSize };
+                    visual = new Image 
+                    { 
+                        Source = ghostSprite, 
+                        Width = TileSize, 
+                        Height = TileSize 
+                    };
                     break;
+                    
                 case Cherry cherry:
                     IImage img = cherry.Type == CherryType.Red ? _cherryRedImg : _cherryBlueImg;
-                    
                     visual = new Image 
                     { 
                         Source = img, 
@@ -186,5 +213,11 @@ public class GameRenderer
                 _canvas.Children.Add(visual);
             }
         }
+    }
+
+    private Bitmap LoadBitmap(string fileName)
+    {
+        var uri = new Uri($"avares://PacmanAvalonia/Assets/{fileName}");
+        return new Bitmap(AssetLoader.Open(uri));
     }
 }
