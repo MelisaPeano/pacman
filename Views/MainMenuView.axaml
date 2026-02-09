@@ -19,13 +19,6 @@
                        HorizontalAlignment="Center"
                        Margin="0,0,0,20"/>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
-                <TextBlock Text="START LEVEL:" 
-                           Foreground="White" 
-                           VerticalAlignment="Center" 
-                           FontSize="18"/>
-            </StackPanel>
-
             <Button Content="STORY MODE"
                     Command="{Binding StartStoryModeCommand}"
                     HorizontalAlignment="Stretch"

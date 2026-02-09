@@ -104,7 +104,7 @@ public partial class GameViewModel : ViewModelBase
         _powerModeTimer.Tick += (s, e) => { DeactivatePowerMode(); };
         
         _gameTimer = new DispatcherTimer();
-        _gameTimer.Interval = TimeSpan.FromMilliseconds(200); 
+        _gameTimer.Interval = TimeSpan.FromMilliseconds(250); 
         _gameTimer.Tick += GameLoop;
         _gameTimer.Start();
         
@@ -170,6 +170,11 @@ public partial class GameViewModel : ViewModelBase
         {
             return; 
         }
+        
+        if (!_areGhostsSlowed && !ShouldGhostsMoveByLevel())
+        {
+            return; 
+        }
 
         foreach (var ghost in GameObjects.OfType<Ghost>())
         {
@@ -223,6 +228,27 @@ public partial class GameViewModel : ViewModelBase
         ghost.LastDirY = 0;
     
         ghost.State = GhostState.Normal;
+    }
+    
+    /// <summary>
+    /// Determina si los fantasmas deben moverse en este tick basándose en el nivel actual.
+    /// Nivel 1: Lentos (50% vel). Nivel 5+: Máxima velocidad (100% vel).
+    /// </summary>
+    private bool ShouldGhostsMoveByLevel()
+    {
+        if (_currentLevelIndex >= 5) 
+        {
+            return true; 
+        }
+    
+        int skipFactor = _currentLevelIndex + 1;
+        
+        if (_animationTick % skipFactor == 0)
+        {
+            return false; 
+        }
+
+        return true;
     }
     
     private (int x, int y) GetGhostTarget(Ghost ghost)
