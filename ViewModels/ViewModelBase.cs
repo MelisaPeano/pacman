@@ -1,15 +1,11 @@
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace PacmanAvalonia.ViewModels;
 
+/// <summary>
+/// Base class for all ViewModels in the application.
+/// Inherits from ObservableObject to provide built-in support for property change notifications (INotifyPropertyChanged).
+/// </summary>
 public abstract partial class ViewModelBase : ObservableObject
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
 }

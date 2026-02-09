@@ -1,15 +1,15 @@
 Q------------------W
 |Oooo|oooooooo|oooO|
-|oQ--S Q----W A--Wo|
-|o|1   |    |   2|o|
-|oA--W A----S Q--So|
-|oooo|oooooooo|oooo|
-|----S Q----W A----|
-|oooooo| 34 |oooooo|
-|----W A----S Q----|
-|oooo|oooooooo|oooo|
-|oQ--S Q-PC-W A--Wo|
-|o|    |    |    |o|
-|oA--W A----S Q--So|
-|Oooo|oooooooo|oooO|
+|oQ--S        A--Wo|
+|o 1            2 o|
+|o|  A--------S  |o|
+|o|  |oooooooo|  |o|
+|oA--S        A--So|
+|oooooo  PC  oooooo|
+|oQ--W        Q--Wo|
+|o|  |oooooooo|  |o|
+|o|  Q--------W  |o|
+|o|3            4|o|
+|oA--W        Q--So|
+|Oooo oooooooo oooO|
 A------------------S

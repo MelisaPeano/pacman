@@ -1,17 +1,17 @@
 Q------------------W
 |oooooooooooooooooo|
 |oQ--W Q----W Q--Wo|
-|o|  | |1234| |  |o|
-|oA--S A----S A--So|
+|o|  |        |  |o|
+|oA--S  1234  A--So|
 |oooooooooooooooooo|
    oooQ--WQ--Wooo   
    ooo|  ||  |ooo   
    oooA--SA--Sooo   
 |ooooooooCooooooooo|
 |oQ--W Q----W Q--Wo|
-|o|  | | P  | |  |o|
-|o|  | A----S |  |o|
-|o|  |oooooooo|  |o|
+|o|  |        |  |o|
+|o|  |   P    |  |o|
+|o|  |        |  |o|
 |oA--S Q----W A--So|
 |oooooo|    |oooooo|
 |OOOOOOA----SOOOOOO|

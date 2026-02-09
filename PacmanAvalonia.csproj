@@ -29,4 +29,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\LevelSelectionView.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>LevelSelectionView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

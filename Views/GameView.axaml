@@ -1,33 +1,73 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PacmanAvalonia.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PacmanAvalonia.Views.GameView"
              x:DataType="vm:GameViewModel"
              Focusable="True">
 
     <Grid>
         <DockPanel>
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="Black">
-                <TextBlock Text="SCORE: " Foreground="White" Margin="10,0"/>
-                <TextBlock Text="{Binding Score}" Foreground="White" Margin="0,0,20,0"/>
+            <StackPanel DockPanel.Dock="Top" 
+                        Orientation="Horizontal" 
+                        Background="#202020"
+                        Height="40">
+                
+                <TextBlock Text="SCORE: " 
+                           Foreground="White" 
+                           VerticalAlignment="Center"
+                           Margin="20,0,5,0"
+                           FontWeight="Bold"/>
+                <TextBlock Text="{Binding Score}" 
+                           Foreground="White" 
+                           VerticalAlignment="Center"
+                           Margin="0,0,40,0"
+                           FontSize="16"/>
         
-                <TextBlock Text="LIVES: " Foreground="White" Margin="10,0"/>
-                <TextBlock Text="{Binding Lives}" Foreground="Yellow" FontWeight="Bold"/>
+                <TextBlock Text="LIVES: " 
+                           Foreground="White" 
+                           VerticalAlignment="Center"
+                           Margin="0,0,5,0"
+                           FontWeight="Bold"/>
+                <TextBlock Text="{Binding Lives}" 
+                           Foreground="Yellow" 
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           FontSize="16"/>
             </StackPanel>
       
-            <Canvas Name="GameCanvas" Background="Black"/>
+            <Grid Background="Black">
+                <Canvas Name="GameCanvas" 
+                        Width="{Binding GridWidth}"
+                        Height="{Binding GridHeight}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="Black"/>
+            </Grid>
         </DockPanel>
 
-        <Grid IsVisible="{Binding IsGameOver}" Background="#AA000000">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding StatusMessage}" 
-                           FontSize="40" 
-                           Foreground="Red" 
-                           FontWeight="Bold" 
-                           HorizontalAlignment="Center"/>
+        <Grid IsVisible="{Binding IsGameOver}" 
+              Background="#CC000000">
             
-                <TextBlock Text="Press Esc to Exit" 
+            <StackPanel HorizontalAlignment="Center" 
+                        VerticalAlignment="Center">
+                
+                <TextBlock Text="{Binding StatusMessage}" 
+                           FontSize="48" 
+                           FontWeight="Black" 
+                           HorizontalAlignment="Center">
+                    <TextBlock.Styles>
+                        <Style Selector="TextBlock">
+                            <Setter Property="Foreground" Value="#FFD700"/>
+                        </Style>
+                    </TextBlock.Styles>
+                </TextBlock>
+            
+                <TextBlock Text="Press ESC to Return to Menu" 
                            Foreground="White" 
+                           FontSize="18"
                            HorizontalAlignment="Center"
                            Margin="0,20,0,0"/>
             </StackPanel>

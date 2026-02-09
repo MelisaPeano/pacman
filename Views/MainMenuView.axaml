@@ -1,15 +1,54 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:PacmanAvalonia.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PacmanAvalonia.Views.MainMenuView"
              x:DataType="vm:MainMenuViewModel">
 
-    <StackPanel HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Spacing="10">
+    <Grid Background="Black">
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Spacing="20">
 
-        <Button Content="Iniciar Juego"
-                Command="{Binding StartGameCommand}" />
+            <TextBlock Text="PACMAN"
+                       Foreground="Yellow"
+                       FontSize="72"
+                       FontWeight="Black"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
 
-    </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+                <TextBlock Text="START LEVEL:" 
+                           Foreground="White" 
+                           VerticalAlignment="Center" 
+                           FontSize="18"/>
+            </StackPanel>
+
+            <Button Content="STORY MODE"
+                    Command="{Binding StartStoryModeCommand}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    FontSize="24"
+                    Padding="20,10"
+                    Background="#202020"
+                    Foreground="White"
+                    BorderBrush="Blue"
+                    BorderThickness="2"
+                    CornerRadius="5"/>
+
+            <Button Content="SURVIVOR MODE"
+                    Command="{Binding StartSurvivorModeCommand}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    FontSize="24"
+                    Padding="20,10"
+                    Background="#202020"
+                    Foreground="White"
+                    BorderBrush="Red"
+                    BorderThickness="2"
+                    CornerRadius="5"/>
+        </StackPanel>
+    </Grid>
 </UserControl>

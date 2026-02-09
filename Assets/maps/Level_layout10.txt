@@ -1,18 +1,18 @@
 Q------------------W
 |o1oooooooooooooo2o|
-|oQ-W Q-------W QWo|
-|o| | |ooooooo| ||o|
-|o| A-S Q---W | ||o|
-|o|ooooo| C | | ||o|
-|oA---W A---S A-So|
-|ooooo|oooooooPooo|
-|oQ-W A---W Q---Wo|
-|o| |ooooo| |ooo|o|
-|o| A---W | A-W |o|
-|o|ooooo| |ooo| |o|
-|oA---W | A---S |o|
-|ooo3o| |ooo4ooo|o|
-|oQ---S A-----W |o|
-|o|ooooOoooooO| |o|
-|oA-----------S |o|
+|oQ--W        Q--Wo|
+|o|  |oooooooo|  |o|
+|o|  A---  ---S  |o|
+|o|      PC      |o|
+|oA---W      Q---So|
+|ooooo|oooooo|ooooo|
+|oQ---S      A---Wo|
+|o|      34      |o|
+|o|  Q--------W  |o|
+|o|  |oooooooo   |o|
+|o|  A--------S  |o|
+|o|              |o|
+|oA-----W  Q-----So|
+|ooooooo|  |ooooooo|
+|OOOOOOOA--SOOOOOOO|
 A------------------S

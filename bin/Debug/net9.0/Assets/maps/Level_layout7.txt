@@ -1,15 +1,15 @@
 Q------------------W
-|OoOoOoOoOoOoOoOoOo|
-|oQWQWQWQWQWQWQWQWo|
-|o||||||||||||||||o|
-|oASASASASASASASASo|
-|oooooooo12oooooooo|
-|oQWQWQWQWQWQWQWQWo|
-|o||||||||||||||||o|
-|oASASASASASASASASo|
-|oooooooo34oooooooo|
-|oQWQWQWQPCWQWQWQWo|
-|o||||||||||||||||o|
-|oASASASASASASASASo|
+|O o o o o o o o oO|
+| QW QW QW QW QW QW|
+| || || || || || |||
+| AS AS AS AS AS AS|
+|o o 1  o o o  2 o |
+| QW QW QW QW QW QW|
+| || || || || || |||
+| AS AS AS AS AS AS|
+|o o 3  o PC   4 o |
+| QW QW QW QW QW QW|
+| || || || || || |||
+| AS AS AS AS AS AS|
 |oooooooooooooooooo|
 A------------------S

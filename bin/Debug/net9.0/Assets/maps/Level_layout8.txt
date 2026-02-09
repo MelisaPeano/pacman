@@ -2,16 +2,16 @@ Q------------------W
 |oooooooooooooooooo|
 |oQ--W Q----W Q--Wo|
 |o|  | |1  2| |  |o|
-|oA--S |    | A--So|
-|oooooo|3  4|oooooo|
-|--W Q-S    A-W Q--|
-|  | |   C    | |  |
-|--S A-W    Q-S A--|
-|oooooo|    |oooooo|
-|oQ--W | PC | Q--Wo|
+|o|  | |    | |  |o|
+|o|  | |3  4| |  |o|
 |o|  | A----S |  |o|
-|o|  |oooooooo|  |o|
-|o|  A------S A--So|
-|o|ooooooooooooooOo|
-|oA--------------So|
+|o|  |   C    |  |o|
+|o|  | Q----W |  |o|
+|o|  | |    | |  |o|
+|o|  | | PC | |  |o|
+|oA--S A----S A--So|
+|oooooooooooooooooo|
+|oQ------WQ------Wo|
+|o|oooooo||oooooo|o|
+|oA------SA------So|
 A------------------S

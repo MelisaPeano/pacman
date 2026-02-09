@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PacmanAvalonia.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="PacmanAvalonia.Views.LevelSelectionView"
+             x:DataType="vm:LevelSelectionViewModel">
+
+    <Grid Background="Black">
+        <StackPanel HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Spacing="30">
+
+            <TextBlock Text="SELECT LEVEL"
+                       Foreground="Yellow"
+                       FontSize="48"
+                       FontWeight="Black"
+                       HorizontalAlignment="Center"/>
+
+            <ItemsControl ItemsSource="{Binding Levels}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="5" Rows="2" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding}"
+                                Command="{Binding $parent[UserControl].((vm:LevelSelectionViewModel)DataContext).SelectLevelCommand}"
+                                CommandParameter="{Binding}"
+                                Width="80"
+                                Height="80"
+                                Margin="10"
+                                FontSize="32"
+                                FontWeight="Bold"
+                                Background="#202020"
+                                Foreground="White"
+                                BorderBrush="Blue"
+                                BorderThickness="2"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                CornerRadius="10"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Button Content="BACK TO MENU"
+                    Command="{Binding GoBackCommand}"
+                    HorizontalAlignment="Center"
+                    Background="Transparent"
+                    Foreground="Red"
+                    FontSize="20"
+                    Margin="0,20,0,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,11 +1,11 @@
 Q------------------W
 |OOOOOOOOOOOOOOOOOO|
 |OQ--W Q----W Q--WO|
-|O|  | |1  2| |  |O|
+|O|  | |1  2     |O|
 |OA--S A----S A--SO|
 |oooooooooooooooooo|
 |oQ--W Q----W Q--Wo|
-|o|  | |3  4| |  |o|
+|o|     3  4| |  |o|
 |oA--S A----S A--So|
 |ooooooooCooooooooo|
 |oQ--W Q----W Q--Wo|

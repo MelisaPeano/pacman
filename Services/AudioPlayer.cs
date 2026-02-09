@@ -14,16 +14,20 @@ public class AudioPlayer
     private readonly string _deathPath;
     private readonly string _introPath;
     private readonly string _winPath;
+    private readonly string _eatGhostPath;   
+    private readonly string _powerPelletPath;
 
     /// <summary>
     /// Initializes a new instance of the AudioPlayer class and preloads file paths.
     /// </summary>
     public AudioPlayer()
     {
-        _wakaPath = GetSoundPath("waka.wav");
-        _deathPath = GetSoundPath("deathSound.wav");
-        _introPath = GetSoundPath("titleMusic.wav");
-        _winPath = GetSoundPath("levelWin.wav");
+        _wakaPath = GetSoundPath("eat_dot_0.wav"); 
+        _deathPath = GetSoundPath("death_1.wav");
+        _introPath = GetSoundPath("start.wav");
+        _winPath = GetSoundPath("intermission.wav"); 
+        _eatGhostPath = GetSoundPath("eat_ghost.wav");
+        _powerPelletPath = GetSoundPath("eat_fruit.wav");
     }
 
     /// <summary>
@@ -57,7 +61,16 @@ public class AudioPlayer
     {
         PlaySound(_winPath);
     }
+    /// <summary>
+    /// Plays when pacman eats a Ghost
+    /// </summary>
+    public void PlayEatGhost() => PlaySound(_eatGhostPath);
 
+    /// <summary>
+    /// Plays when Pacman can eat ghosts
+    /// </summary>
+    public void PlayPowerPellet() => PlaySound(_powerPelletPath);
+    
     /// <summary>
     /// Attempts to stop all currently playing sounds. 
     /// On Linux, this terminates the audio process.
