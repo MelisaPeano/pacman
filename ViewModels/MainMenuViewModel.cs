@@ -15,6 +15,18 @@ public partial class MainMenuViewModel : ViewModelBase
     
     [ObservableProperty]
     private int _selectedLevel = 1;
+    
+    [RelayCommand]
+    public void GoToHighScores()
+    {
+        _mainWindow.NavigateTo(new HighScoresViewModel(_mainWindow));
+    }
+
+    [RelayCommand]
+    public void GoToSettings()
+    {
+        _mainWindow.NavigateTo(new SettingsViewModel(_mainWindow));
+    }
     /// <summary>
     /// Initializes a new instance of the MainMenuViewModel class.
     /// </summary>

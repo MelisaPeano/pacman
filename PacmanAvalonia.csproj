@@ -34,5 +34,8 @@
       <SubType>Code</SubType>
       <DependentUpon>LevelSelectionView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\HighScoresView.axml.cs">
+      <DependentUpon>HighScoresView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

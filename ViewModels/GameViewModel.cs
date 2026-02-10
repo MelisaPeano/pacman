@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Threading; 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PacmanAvalonia.Models;
 using PacmanAvalonia.Models.Entities;
 using PacmanAvalonia.Models.enums;
@@ -75,6 +76,15 @@ public partial class GameViewModel : ViewModelBase
 
     [ObservableProperty]
     private double _gridHeight;
+    
+    [ObservableProperty]
+    private string _playerName = "PLAYER 1";
+    
+    [ObservableProperty]
+    private bool _isScoreSaved = false;
+    
+    
+    
     /// <summary>
     /// Initializes a new instance of the GameViewModel class with the specified game mode.
     /// </summary>
@@ -163,7 +173,38 @@ public partial class GameViewModel : ViewModelBase
 
         RequestRedraw?.Invoke();
     }
-    
+    [RelayCommand]
+    public void SaveScore()
+    {
+        if (string.IsNullOrWhiteSpace(PlayerName) || IsScoreSaved) return;
+
+        ScoreService.SaveScore(PlayerName, Score, _currentLevelIndex);
+        IsScoreSaved = true; // Bloqueamos el botón
+        StatusMessage = "SCORE SAVED!"; // Feedback visual
+    }
+
+    [RelayCommand]
+    public void RetryLevel()
+    {
+        // Reseteamos banderas de Game Over
+        IsGameOver = false;
+        IsScoreSaved = false;
+        StatusMessage = "";
+        Lives = 3;
+        Score = 0; // Opcional: ¿Quieres resetear el score al reintentar? Generalmente sí.
+        
+        // Recargamos el mapa actual
+        InitializeGame();
+    }
+
+    [RelayCommand]
+    public void ReturnToMenu()
+    {
+        _audioPlayer.StopAll();
+        _gameTimer.Stop();
+        _mainViewModel.NavigateTo(new MainMenuViewModel(_mainViewModel));
+    }
+
     private void MoveGhosts()
     {
         if (_areGhostsSlowed && _animationTick % 2 != 0)

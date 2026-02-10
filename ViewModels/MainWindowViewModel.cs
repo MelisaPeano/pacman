@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace PacmanAvalonia.ViewModels;
 
@@ -9,6 +10,7 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty]
     private ViewModelBase _currentViewModel;
+    
 
     /// <summary>
     /// Initializes a new instance of the MainWindowViewModel class and sets the default view to the Main Menu.

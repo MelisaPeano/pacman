@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:PacmanAvalonia.ViewModels"
+             x:Class="PacmanAvalonia.Views.HighScoresView"
+             x:DataType="vm:HighScoresViewModel">
+
+    <Grid Background="Black">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20" Width="600">
+            
+            <TextBlock Text="HALL OF FAME" 
+                       Foreground="#FFD700" 
+                       FontSize="48" 
+                       FontWeight="Black" 
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
+
+            <Grid ColumnDefinitions="*, *, *, *" Margin="0,0,0,10">
+                <TextBlock Text="DATE" Foreground="Gray" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBlock Text="NAME" Foreground="Gray" FontWeight="Bold" HorizontalAlignment="Center" Grid.Column="1"/>
+                <TextBlock Text="LEVEL" Foreground="Gray" FontWeight="Bold" HorizontalAlignment="Center" Grid.Column="2"/>
+                <TextBlock Text="SCORE" Foreground="Gray" FontWeight="Bold" HorizontalAlignment="Center" Grid.Column="3"/>
+            </Grid>
+            
+            <Separator Background="Gray" Height="2"/>
+
+            <ItemsControl ItemsSource="{Binding HighScores}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="#303030" BorderThickness="0,0,0,1" Padding="10">
+                            <Grid ColumnDefinitions="*, *, *, *">
+                                <TextBlock Text="{Binding Date}" Foreground="White" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Name}" Foreground="Cyan" FontWeight="Bold" HorizontalAlignment="Center" Grid.Column="1"/>
+                                <TextBlock Text="{Binding Level}" Foreground="White" HorizontalAlignment="Center" Grid.Column="2"/>
+                                <TextBlock Text="{Binding Score}" Foreground="Yellow" FontWeight="Bold" HorizontalAlignment="Center" Grid.Column="3"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Button Content="BACK TO MENU" 
+                    Command="{Binding GoBackCommand}"
+                    HorizontalAlignment="Center"
+                    Background="Transparent"
+                    Foreground="Red"
+                    FontSize="20"
+                    Margin="0,20,0,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

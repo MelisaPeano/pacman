@@ -42,6 +42,28 @@
                     BorderBrush="Red"
                     BorderThickness="2"
                     CornerRadius="5"/>
+            <Button Content="HIGH SCORES"
+                    Command="{Binding GoToHighScoresCommand}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    FontSize="24"
+                    Padding="20,10"
+                    Background="#202020"
+                    Foreground="White"
+                    BorderBrush="Yellow"
+                    BorderThickness="2"
+                    CornerRadius="5"/>
+            <Button Content="SETTINGS"
+                    Command="{Binding GoToSettingsCommand}"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    FontSize="24"
+                    Padding="20,10"
+                    Background="#202020"
+                    Foreground="White"
+                    BorderBrush="Fuchsia"
+                    BorderThickness="2"
+                    CornerRadius="5"/>
         </StackPanel>
     </Grid>
 </UserControl>
