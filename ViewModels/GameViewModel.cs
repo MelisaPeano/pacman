@@ -114,7 +114,7 @@ public partial class GameViewModel : ViewModelBase
         _powerModeTimer.Tick += (s, e) => { DeactivatePowerMode(); };
         
         _gameTimer = new DispatcherTimer();
-        _gameTimer.Interval = TimeSpan.FromMilliseconds(250); 
+        _gameTimer.Interval = TimeSpan.FromMilliseconds(200); 
         _gameTimer.Tick += GameLoop;
         _gameTimer.Start();
         
@@ -207,6 +207,14 @@ public partial class GameViewModel : ViewModelBase
 
     private void MoveGhosts()
     {
+
+        int totalCicle = 80;
+
+        double currentMoment = _animationTick % totalCicle;
+
+        bool isTimeToRandomMode = currentMoment > 60;
+        
+        
         if (_areGhostsSlowed && _animationTick % 2 != 0)
         {
             return; 
@@ -223,38 +231,45 @@ public partial class GameViewModel : ViewModelBase
             {
                 continue;
             }
-            if (ghost.State == GhostState.Vulnerable)
+            if (ghost.State == GhostState.Vulnerable || isTimeToRandomMode && ghost.State == GhostState.Normal)
             {
-                var validMoves = new List<Direction>();
-                foreach(Direction d in Enum.GetValues(typeof(Direction)))
-                {
-                    if(d == Direction.None) 
-                    {
-                        continue;
-                    }
-
-                    var (nx, ny) = GetNextPositionWithWrap(ghost.X, ghost.Y, d);
-                    if(!IsWall(nx, ny)) 
-                    {
-                        validMoves.Add(d);
-                    }
-                }
-                
-                if (validMoves.Count > 0)
-                {
-                    var randomDir = validMoves[_random.Next(validMoves.Count)];
-                    var (fx, fy) = GetNextPositionWithWrap(ghost.X, ghost.Y, randomDir);
-                    ghost.X = fx; 
-                    ghost.Y = fy;
-                }
-                continue; 
+                MoveGhostRandomly(ghost);
+                continue;
             }
 
             var (targetX, targetY) = GetGhostTarget(ghost);
             MoveGhostTowards(ghost, targetX, targetY);
         }
+        
     }
-    
+
+    private void MoveGhostRandomly(Ghost ghost)
+    {
+        var validMoves = new List<Direction>();
+        foreach(Direction d in Enum.GetValues(typeof(Direction)))
+        {
+            if(d == Direction.None) 
+            {
+                continue;
+            }
+
+            var (nx, ny) = GetNextPositionWithWrap(ghost.X, ghost.Y, d);
+            if(!IsWall(nx, ny)) 
+            {
+                validMoves.Add(d);
+            }
+        }
+                
+        if (validMoves.Count > 0)
+        {
+            var randomDir = validMoves[_random.Next(validMoves.Count)];
+            var (fx, fy) = GetNextPositionWithWrap(ghost.X, ghost.Y, randomDir);
+            ghost.X = fx; 
+            ghost.Y = fy;
+        }
+        return;
+    }
+
     private async void RespawnGhost(Ghost ghost)
     {
         ghost.X = -100;
@@ -406,10 +421,7 @@ public partial class GameViewModel : ViewModelBase
                 Score += 200;
                 _audioPlayer.PlayEatGhost(); 
                 
-                ghost.X = ghost.StartX;
-                ghost.Y = ghost.StartY;
-            
-                ghost.State = GhostState.Normal;
+               RespawnGhost(ghost);
             }
             else
             {
@@ -608,7 +620,7 @@ public partial class GameViewModel : ViewModelBase
 
                     if (IsWallChar(tile))
                     {
-                        GameObjects.Add(new Wall(c, r));
+                        GameObjects.Add(new Wall(c, r, tile));
                     }
                     else if (tile == 'o' || tile == '.')
                     {
@@ -641,6 +653,10 @@ public partial class GameViewModel : ViewModelBase
         
                         GameObjects.Add(new Ghost(c, r, type));
                     }
+                    else if (tile == '=')
+                    {
+                        GameObjects.Add(new GhostDoor(c, r));
+                    }
                 }
             }
 
@@ -657,7 +673,7 @@ public partial class GameViewModel : ViewModelBase
 
     private bool IsWallChar(char c)
     {
-        return "QWAS|-><_".Contains(c); 
+        return "-|QWASLRDU=".Contains(c);
     }
     
     private (int x, int y) GetNextPositionWithWrap(int currentX, int currentY, Direction dir)

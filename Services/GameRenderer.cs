@@ -44,6 +44,7 @@ public class GameRenderer
     private readonly IImage _wallEndBot;    
     private readonly IImage _wallEndLeft;
     private readonly IImage _wallEndRight;
+    private readonly IImage _ghostDoorImg;
     /// <summary>
     /// Initializes a new instance of the GameRenderer class.
     /// Loads all necessary image assets and prepares sprite cutouts.
@@ -91,6 +92,8 @@ public class GameRenderer
             _wallEndBot = LoadBitmap("Walls/BottomWallEnd.png");
             _wallEndLeft = LoadBitmap("Walls/LeftWallEnd.png");
             _wallEndRight = LoadBitmap("Walls/RightWallEnd.png");
+            
+            _ghostDoorImg = LoadBitmap("ghostDoor.png");
 
             int inkyW = inkySheet.PixelSize.Width / 8;
             int inkyH = inkySheet.PixelSize.Height; 
@@ -149,19 +152,67 @@ public class GameRenderer
             switch (obj)
             {
                 case Wall w:
-                    bool up = wallSet.Contains((w.X, w.Y - 1));
-                    bool down = wallSet.Contains((w.X, w.Y + 1));
-                    bool left = wallSet.Contains((w.X - 1, w.Y));
-                    bool right = wallSet.Contains((w.X + 1, w.Y));
+                    if (w.Type == '=')
+                    {
+                        visual = new Image 
+                        { 
+                            Source = _ghostDoorImg, 
+                            Width = TileSize, 
+                            Height = TileSize 
+                        };
+                        break;
+                    }
+                    IImage wallSprite = null;
 
-                    IImage wallSprite = SelectWallSprite(up, down, left, right);
-                    
-                    visual = new Image 
-                    { 
-                        Source = wallSprite, 
-                        Width = TileSize, 
-                        Height = TileSize 
-                    };
+                    switch (w.Type)
+                    {
+                        case '-': 
+                            wallSprite = _wallHor; 
+                            break;
+                        case '|': 
+                            wallSprite = _wallVer; 
+                            break;
+        
+                        case 'Q': 
+                            wallSprite = _wallTopLeft; 
+                            break;
+                        case 'W': 
+                            wallSprite = _wallTopRight; 
+                            break;
+        
+                        case 'A': 
+                            wallSprite = _wallBotLeft; 
+                            break;
+                        case 'S': 
+                            wallSprite = _wallBotRight; 
+                            break;
+                        case 'U' :
+                            wallSprite = _wallEndTop;
+                            break;
+                        case 'L' : 
+                            wallSprite = _wallEndLeft;
+                            break;
+                        case 'R' :
+                            wallSprite = _wallEndRight;
+                            break;
+                        case 'D': 
+                            wallSprite = _wallEndBot;
+                            break;
+
+                        default: 
+                            wallSprite = _wallHor; 
+                            break;
+                    }
+    
+                    if (wallSprite != null)
+                    {
+                        visual = new Image 
+                        { 
+                            Source = wallSprite, 
+                            Width = TileSize, 
+                            Height = TileSize 
+                        };
+                    }
                     break;
                 
                 case Pacman:
@@ -234,30 +285,6 @@ public class GameRenderer
                 _canvas.Children.Add(visual);
             }
         }
-    }
-
-    /// <summary>
-    /// Selecciona la imagen correcta de pared basándose en los vecinos.
-    /// </summary>
-    private IImage SelectWallSprite(bool up, bool down, bool left, bool right)
-    {
-        if (right && down && !left && !up) return _wallTopLeft;
-        if (left && down && !right && !up) return _wallTopRight;
-        if (right && up && !left && !down) return _wallBotLeft;
-        if (left && up && !right && !down) return _wallBotRight;
-        
-        if (down && !up && !left && !right) return _wallEndTop;   
-        if (up && !down && !left && !right) return _wallEndBot;    
-        if (right && !left && !up && !down) return _wallEndLeft;  
-        if (left && !right && !up && !down) return _wallEndRight;  
-
-        // 3. RECTAS
-        if ((left || right) && !up && !down) return _wallHor;      
-        if ((up || down) && !left && !right) return _wallVer;  
-
-        if (left || right) return _wallHor;
-        
-        return _wallVer;
     }
 
     private Bitmap LoadBitmap(string fileName)

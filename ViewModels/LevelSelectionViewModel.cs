@@ -14,7 +14,7 @@ public partial class LevelSelectionViewModel : ViewModelBase
     /// <summary>
     /// Gets the list of available levels to display in the grid (1 to 10).
     /// </summary>
-    public List<int> Levels { get; } = new() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    public List<int> Levels { get; } = new() { 1, 2, 3, 4, 5};
 
     /// <summary>
     /// Initializes a new instance of the LevelSelectionViewModel class.

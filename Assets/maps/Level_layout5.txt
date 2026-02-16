@@ -1,17 +1,24 @@
-Q------------------W
-|oooooooooooooooooo|
-|oQ--W  1  2  Q--Wo|
-|o|  |oooooooo|  |o|
-|o|  Q--------W  |o|
-|o|  |oooooooo|  |o|
-|o       PC      |o|
-|o|  |oooooooo   |o|
-|o|  |oooooooo|  |o|
-|o|  A---   --S  |o|
-|o|  |oooooooo|  |o|
-|o|  |oooooooo|  |o|
-|o|  Q--------W  |o|
-|o|  |oooooooo|  |o|
-|oA--S  3  4  A--So|
-|oooooooooooooooooo|
-A------------------S
+W-------------------Q
+|OooooooooUooooooooO|
+|ooooooooo|ooooooooo|
+|oL--RooooDooooL--Ro|
+|ooooooooooooooooooo|
+|ooooooooooooooooooo|
+|ooooUoooooooooUoooo|
+|oooo|ooooooooo|oooo|
+S----QoooUoUoooW----A
+     |oooDoDooo|     
+     |ooooooooo|     
+-----Aoooo1ooooS-----
+oooooooW--=--Qooooooo
+ooooooo|234  |ooooooo
+oooooooS-----Aooooooo
+ooooooooooooooooooooo
+ooL---RoooooooL---Ro|
+oooooooooPoooooooooo|
+ooUoooooooooooooooUo|
+ooDoooooL---RoooooDo|
+|OoooooooooooooooooO|
+|ooooooooooooooooooo|
+|ooooooooooooooooooo|
+S-------------------A

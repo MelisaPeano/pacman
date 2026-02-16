@@ -77,14 +77,9 @@
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/runtimes/win/lib/net9.0/System.Windows.Extensions.dll
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout1.txt
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout2.txt
-/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout10.txt
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout3.txt
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout4.txt
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout5.txt
-/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout6.txt
-/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout7.txt
-/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout8.txt
-/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/maps/Level_layout9.txt
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/audio/deathSound.wav
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/audio/gameOver.wav
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/audio/levelWin.wav
@@ -140,3 +135,5 @@
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/audio/siren4.wav
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/audio/siren4_firstloop.wav
 /home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/audio/start.wav
+/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/PAC-MAN99_logo.jpg
+/home/melisa/Desktop/programacion3/PacmanAvalonia/PacmanAvalonia/bin/Debug/net9.0/Assets/ghostDoor.png

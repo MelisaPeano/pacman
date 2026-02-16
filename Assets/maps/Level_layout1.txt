@@ -1,19 +1,27 @@
-Q------------------W
-|OOOOOOOOOOOOOOOOOO|
-|OQ--W Q----W Q--WO|
-|O|  | |1  2     |O|
-|OA--S A----S A--SO|
-|oooooooooooooooooo|
-|oQ--W Q----W Q--Wo|
-|o|     3  4| |  |o|
-|oA--S A----S A--So|
-|ooooooooCooooooooo|
-|oQ--W Q----W Q--Wo|
-|o|  | | P  | |  |o|
-|OA--S A----S A--SO|
-|oooooooooooooooooo|
-|OQ--W Q----W Q--WO|
-|O|  | |    | |  |O|
-|OA--S A----S A--SO|
-|OOOOOOOOOOOOOOOOOO|
-A------------------S
+W-------------------Q
+|ooooooooo|ooooooooo|
+|OW-QoW-QoDooW----Qo|
+|o| |o| |oooo|    |o|
+|oS-AoS-AooooS----Ao|
+|ooooooooooooooooooo|
+|ooooooooL-----Roooo|
+|oooooUooooooooooUoo|
+|ooooo|oooooooooo|oo|
+S---Qo|-RoL--RoL-|oo|
+    |o|ooooo|ooooooo|
+    |oDooooo|ooooooo|
+----AoooooooDo------A
+oooooooooooo1oooooooo
+oooooooooW--=--QoooLQ
+----Qoooo|234  |oooo|
+    |ooooS-----Aoooo|
+    |ooooooooooooooo|
+W---AoooooooooUooooo|
+|oooooooooooL---Rooo|
+|ooL-----Roooooooooo|
+|ROooooooPCooooooooo|
+|OooooL-------Rooooo|
+|ooooooooo|oooooooOo|
+|oL---RoooDoooL--Roo|
+|ooooooooooooooooooo|
+S-------------------A
