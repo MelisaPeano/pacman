@@ -10,9 +10,9 @@ W-------------------Q
 S---Qo|-RoL--RoL-|oo|
     |o|ooooo|ooooooo
     |oDooooo|ooooooo
-----AoooooooDo------A
-oooooooooooo1oooooooo
-oooooooooW--=--QoooLQ
+----AoooooooDo------Q
+oooooooooooo1ooooooo|
+oooooooooW--=--Qooo |
 ----Qoooo|234  |oooo|
     |ooooS-----Aoooo|
     |ooooooooooooooo|

@@ -60,12 +60,19 @@ public class GameRenderer
             var blinkySheet = LoadBitmap("GhostBlinky.png");
             var pinkySheet = LoadBitmap("GhostPinky.png");
             var clydeSheet = LoadBitmap("GhostClyde.png");
-            var vulnerableSheet = LoadBitmap("GhostBlue.png");
-            var inkySheet = LoadBitmap("blueGhost.png"); 
+            var vulnerableSheet = LoadBitmap("blueGhost.png");
+            var inkySheet = LoadBitmap("GhostBlue.png"); 
             
             _cherryRedImg = LoadBitmap("Cherry.png");
             _cherryBlueImg = LoadBitmap("CherryInverted.png");
-            _coinImg = LoadBitmap("Dot.png");
+            _coinImg = LoadBitmap("Coin.png");
+            
+            var coinSheet = LoadBitmap("Coin.png"); 
+            
+            int coinFrameWidth = coinSheet.PixelSize.Width / 7;
+            int coinFrameHeight = coinSheet.PixelSize.Height;
+
+            _coinImg = new CroppedBitmap(coinSheet, new PixelRect(0, 0, coinFrameWidth, coinFrameHeight));
             _powerImg = LoadBitmap("Munchie.png");
 
             int pmW = pacmanSheet.PixelSize.Width / 3;
@@ -78,7 +85,10 @@ public class GameRenderer
             _ghostBlinky = new CroppedBitmap(blinkySheet, new PixelRect(0, 0, gW, gH));
             _ghostPinky = new CroppedBitmap(pinkySheet, new PixelRect(0, 0, gW, gH));
             _ghostClyde = new CroppedBitmap(clydeSheet, new PixelRect(0, 0, gW, gH));
-            _ghostVulnerable = new CroppedBitmap(vulnerableSheet, new PixelRect(0, 0, gW, gH));
+            
+            int vulW = vulnerableSheet.PixelSize.Width / 8; 
+            int vulH = vulnerableSheet.PixelSize.Height; 
+            _ghostVulnerable = new CroppedBitmap(vulnerableSheet, new PixelRect(0, 0, vulW, vulH));
             
             _wallHor = LoadBitmap("Walls/HorizontalWallTile.png");
             _wallVer = LoadBitmap("Walls/VerticalWallTile.png");
@@ -94,10 +104,8 @@ public class GameRenderer
             _wallEndRight = LoadBitmap("Walls/RightWallEnd.png");
             
             _ghostDoorImg = LoadBitmap("ghostDoor.png");
-
-            int inkyW = inkySheet.PixelSize.Width / 8;
-            int inkyH = inkySheet.PixelSize.Height; 
-            _ghostInky = new CroppedBitmap(inkySheet, new PixelRect(0, 0, inkyW, inkyH));
+            
+            _ghostInky = new CroppedBitmap(inkySheet, new PixelRect(0, 0, gW, gH));
         }
         catch (Exception ex)
         {

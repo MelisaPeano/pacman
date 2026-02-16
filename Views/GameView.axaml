@@ -6,7 +6,10 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
              x:Class="PacmanAvalonia.Views.GameView"
              x:DataType="vm:GameViewModel"
-             Focusable="True">
+             Focusable="True"
+             
+             RenderOptions.BitmapInterpolationMode="None" 
+             UseLayoutRounding="True">
 
     <Grid>
         <DockPanel>
@@ -40,6 +43,7 @@
       
             <Grid Background="Black">
                 <Canvas Name="GameCanvas" 
+                        UseLayoutRounding="True"
                         Width="{Binding GridWidth}"
                         Height="{Binding GridHeight}"
                         HorizontalAlignment="Center"
