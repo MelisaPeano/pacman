@@ -7,5 +7,6 @@ public enum GhostState
 {
     Normal,
     Vulnerable,
-    Dead
+    Eaten,
+    InHouse
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Threading; 
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PacmanAvalonia.Models;
@@ -20,13 +21,16 @@ public partial class GameViewModel : ViewModelBase
     /// Event triggered when the visual state of the game needs to be updated on the UI.
     /// </summary>
     public event Action? RequestRedraw;
+   
+    private readonly object _lock = new object();
 
     private readonly Random _random = new Random();
     private readonly AudioPlayer _audioPlayer;
     private readonly DispatcherTimer _powerModeTimer;
     private readonly DispatcherTimer _gameTimer;
     private readonly DispatcherTimer _cherryTimer;      
-    private readonly DispatcherTimer _slowGhostsTimer;  
+    private readonly DispatcherTimer _slowGhostsTimer; 
+    private readonly DispatcherTimer _ghostReleaseTimer;
     private readonly MainWindowViewModel _mainViewModel;
     private readonly GameMode _currentMode;
 
@@ -130,6 +134,34 @@ public partial class GameViewModel : ViewModelBase
             _areGhostsSlowed = false; 
             _slowGhostsTimer.Stop(); 
         };
+        _ghostReleaseTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+        _ghostReleaseTimer.Tick += (s, e) => { ReleaseNextGhost(); };
+        _ghostReleaseTimer.Start();
+    }
+    private void ReleaseNextGhost()
+    {
+        var ghostInHouse = GameObjects.OfType<Ghost>()
+            .FirstOrDefault(g => g.State == GhostState.InHouse);
+    
+        if (ghostInHouse != null)
+        {
+            var door = GameObjects.OfType<GhostDoor>().FirstOrDefault();
+
+            if (door != null)
+            {
+                ghostInHouse.X = door.X;
+                ghostInHouse.Y = door.Y - 1; 
+            
+                ghostInHouse.LastDirX = 0;
+                ghostInHouse.LastDirY = 0;
+            }
+
+            ghostInHouse.State = GhostState.Normal;
+        }
+        else
+        {
+            _ghostReleaseTimer.Stop();
+        }
     }
 
     /// <summary>
@@ -186,14 +218,11 @@ public partial class GameViewModel : ViewModelBase
     [RelayCommand]
     public void RetryLevel()
     {
-        // Reseteamos banderas de Game Over
         IsGameOver = false;
         IsScoreSaved = false;
         StatusMessage = "";
         Lives = 3;
-        Score = 0; // Opcional: ¿Quieres resetear el score al reintentar? Generalmente sí.
-        
-        // Recargamos el mapa actual
+        Score = 0; 
         InitializeGame();
     }
 
@@ -207,54 +236,77 @@ public partial class GameViewModel : ViewModelBase
 
     private void MoveGhosts()
     {
+        if (_areGhostsSlowed && _animationTick % 2 != 0) return;
+        if (!_areGhostsSlowed && !ShouldGhostsMoveByLevel()) return;
 
+        var ghostsToMove = GameObjects.OfType<Ghost>().Where(g => g.X >= 0).ToList();
+
+        
         int totalCicle = 80;
-
         double currentMoment = _animationTick % totalCicle;
-
         bool isTimeToRandomMode = currentMoment > 60;
-        
-        
-        if (_areGhostsSlowed && _animationTick % 2 != 0)
-        {
-            return; 
-        }
-        
-        if (!_areGhostsSlowed && !ShouldGhostsMoveByLevel())
-        {
-            return; 
-        }
 
-        foreach (var ghost in GameObjects.OfType<Ghost>())
+        
+        Parallel.ForEach(ghostsToMove, ghost =>
         {
-            if (ghost.X < 0)
+            if (ghost.State == GhostState.InHouse)
             {
-                continue;
+                lock (_lock)
+                {
+                    MoveGhostInHouse(ghost);
+                }
+                return; 
             }
-            if (ghost.State == GhostState.Vulnerable || isTimeToRandomMode && ghost.State == GhostState.Normal)
+
+            if (ghost.State == GhostState.Vulnerable || (isTimeToRandomMode && ghost.State == GhostState.Normal))
             {
-                MoveGhostRandomly(ghost);
-                continue;
+                lock (_lock)
+                {
+                    MoveGhostRandomly(ghost);
+                }
+                return;
             }
 
             var (targetX, targetY) = GetGhostTarget(ghost);
-            MoveGhostTowards(ghost, targetX, targetY);
-        }
-        
+            
+            lock (_lock)
+            {
+                MoveGhostTowards(ghost, targetX, targetY);
+            }
+        });
     }
+    private void MoveGhostInHouse(Ghost ghost)
+    {
+        if (ghost.LastDirX == 0) 
+        {
+            ghost.LastDirX = 1; 
+        }
+        ghost.LastDirY = 0;
 
+        int nextX = ghost.X + ghost.LastDirX;
+
+        if (!IsWall(nextX, ghost.Y, isGhost: true))
+        {
+            
+            ghost.X = nextX;
+        }
+        else
+        {
+            ghost.LastDirX *= -1;
+        
+            if (!IsWall(ghost.X + ghost.LastDirX, ghost.Y, true)) ghost.X += ghost.LastDirX;
+        }
+    }
     private void MoveGhostRandomly(Ghost ghost)
     {
         var validMoves = new List<Direction>();
         foreach(Direction d in Enum.GetValues(typeof(Direction)))
         {
-            if(d == Direction.None) 
-            {
-                continue;
-            }
+            if(d == Direction.None) continue;
 
             var (nx, ny) = GetNextPositionWithWrap(ghost.X, ghost.Y, d);
-            if(!IsWall(nx, ny)) 
+            
+            if(!IsWall(nx, ny, isGhost: true)) 
             {
                 validMoves.Add(d);
             }
@@ -267,7 +319,6 @@ public partial class GameViewModel : ViewModelBase
             ghost.X = fx; 
             ghost.Y = fy;
         }
-        return;
     }
 
     private async void RespawnGhost(Ghost ghost)
@@ -275,15 +326,13 @@ public partial class GameViewModel : ViewModelBase
         ghost.X = -100;
         ghost.Y = -100;
     
-        await System.Threading.Tasks.Task.Delay(3000);
+        await System.Threading.Tasks.Task.Delay(1000);
     
         ghost.X = ghost.StartX;
         ghost.Y = ghost.StartY;
     
-        ghost.LastDirX = 0;
-        ghost.LastDirY = 0;
     
-        ghost.State = GhostState.Normal;
+        ghost.State = GhostState.InHouse;
     }
     
     /// <summary>
@@ -319,11 +368,11 @@ public partial class GameViewModel : ViewModelBase
                 return (Player.X + (pDx * 4), Player.Y + (pDy * 4));
 
             case GhostType.Inky:
-                if (_random.NextDouble() > 0.5) 
+                lock(_lock) 
                 {
-                    return (Player.X, Player.Y);
+                    if (_random.NextDouble() > 0.5) return (Player.X, Player.Y);
+                    return (_random.Next(_mapWidth), _random.Next(_mapHeight));
                 }
-                return (_random.Next(_mapWidth), _random.Next(_mapHeight));
 
             case GhostType.Clyde:
                 double dist = Math.Sqrt(Math.Pow(Player.X - ghost.X, 2) + Math.Pow(Player.Y - ghost.Y, 2));
@@ -339,50 +388,56 @@ public partial class GameViewModel : ViewModelBase
     }
 
     private void MoveGhostTowards(Ghost ghost, int targetX, int targetY)
+{
+    var directions = new[] { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
+    
+    var validMoves = new List<(Direction dir, int x, int y)>();
+
+    foreach (var d in directions)
     {
-        var directions = new[] { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
-        
-        double minDistance = double.MaxValue;
-        Direction bestDir = Direction.None;
-        int bestNextX = ghost.X;
-        int bestNextY = ghost.Y;
-
-        var shuffledDirs = directions.OrderBy(x => _random.Next()).ToList();
-
-        foreach (var dir in shuffledDirs)
+        var (nx, ny) = GetNextPositionWithWrap(ghost.X, ghost.Y, d);
+        if (!IsWall(nx, ny, isGhost: true))
         {
-            var (dx, dy) = GetDelta(dir);
-            
-            if (dx == -ghost.LastDirX && dy == -ghost.LastDirY && dx != 0 && dy != 0) 
-            {
-                continue; 
-            }
-            
-            var (nx, ny) = GetNextPositionWithWrap(ghost.X, ghost.Y, dir);
-
-            if (!IsWall(nx, ny))
-            {
-                double dist = Math.Pow(targetX - nx, 2) + Math.Pow(targetY - ny, 2);
-                
-                if (dist < minDistance)
-                {
-                    minDistance = dist;
-                    bestDir = dir;
-                    bestNextX = nx;
-                    bestNextY = ny;
-                }
-            }
-        }
-
-        if (bestDir != Direction.None)
-        {
-            var (dx, dy) = GetDelta(bestDir);
-            ghost.LastDirX = dx;
-            ghost.LastDirY = dy;
-            ghost.X = bestNextX;
-            ghost.Y = bestNextY;
+            validMoves.Add((d, nx, ny));
         }
     }
+
+    if (validMoves.Count == 0) return;
+
+    if (validMoves.Count > 1)
+    {
+        var dirBack = validMoves.FirstOrDefault(m => 
+            GetDelta(m.dir).x == -ghost.LastDirX && 
+            GetDelta(m.dir).y == -ghost.LastDirY
+        );
+        if (dirBack != default)
+        {
+            validMoves.Remove(dirBack);
+        }
+    }
+
+    double minDistance = double.MaxValue;
+    (Direction bestDir, int bestX, int bestY) selectedMove = (Direction.None, ghost.X, ghost.Y);
+
+    foreach (var move in validMoves)
+    {
+        double dist = Math.Pow(targetX - move.x, 2) + Math.Pow(targetY - move.y, 2);
+        
+        if (dist < minDistance)
+        {
+            minDistance = dist;
+            selectedMove = move;
+        }
+    }
+    if (selectedMove.bestDir != Direction.None)
+    {
+        var (dx, dy) = GetDelta(selectedMove.bestDir);
+        ghost.LastDirX = dx;
+        ghost.LastDirY = dy;
+        ghost.X = selectedMove.bestX;
+        ghost.Y = selectedMove.bestY;
+    }
+}
 
     private void UpdateGameSpeed()
     {
@@ -442,9 +497,18 @@ public partial class GameViewModel : ViewModelBase
         }
     }
 
-    private bool IsWall(int x, int y)
+    private bool IsWall(int x, int y, bool isGhost = false)
     {
-        return GameObjects.OfType<Wall>().Any(w => w.X == x && w.Y == y);
+        bool hasWall = GameObjects.OfType<Wall>().Any(w => w.X == x && w.Y == y);
+        if (hasWall) return true;
+
+        var door = GameObjects.OfType<GhostDoor>().FirstOrDefault(d => d.X == x && d.Y == y);
+        if (door is not null)
+        {
+            return !isGhost; 
+        }
+
+        return false;
     }
 
     private bool CanMove(Direction dir)
@@ -571,6 +635,7 @@ public partial class GameViewModel : ViewModelBase
     private void InitializeGame()
     {
         _gameTimer?.Stop();
+        _ghostReleaseTimer?.Stop();
 
         string fileName = $"Level_layout{_currentLevelIndex}.txt";
         string path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "maps", fileName);
@@ -597,6 +662,7 @@ public partial class GameViewModel : ViewModelBase
         
         RequestRedraw?.Invoke();
         _gameTimer?.Start();
+        _ghostReleaseTimer?.Start();
     }
 
     private void LoadMapFromString(string[] lines)
@@ -642,16 +708,13 @@ public partial class GameViewModel : ViewModelBase
                     }
                     else if (char.IsDigit(tile))
                     {
-                        GhostType type = tile switch
-                        {
-                            '1' => GhostType.Blinky,
-                            '2' => GhostType.Pinky,
-                            '3' => GhostType.Inky,
-                            '4' => GhostType.Clyde,
-                            _ => GhostType.Blinky
-                        };
-        
-                        GameObjects.Add(new Ghost(c, r, type));
+                        GhostType type = tile switch { '1' => GhostType.Blinky, '2' => GhostType.Pinky, '3' => GhostType.Inky, '4' => GhostType.Clyde, _ => GhostType.Blinky };
+                        var ghost = new Ghost(c, r, type);
+
+                        ghost.State = GhostState.InHouse;
+                        ghost.LastDirX = 0;
+                        ghost.LastDirY = 0;
+                        GameObjects.Add(ghost);
                     }
                     else if (tile == '=')
                     {
@@ -673,7 +736,7 @@ public partial class GameViewModel : ViewModelBase
 
     private bool IsWallChar(char c)
     {
-        return "-|QWASLRDU=".Contains(c);
+        return "-|QWASLRDU".Contains(c);
     }
     
     private (int x, int y) GetNextPositionWithWrap(int currentX, int currentY, Direction dir)

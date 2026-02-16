@@ -114,6 +114,7 @@ public class GameRenderer
             _ghostVulnerable = empty;
             _coinImg = empty;
             _powerImg = empty;
+            _ghostDoorImg = empty;
             
             _wallHor = _wallVer = _wallTopLeft = _wallTopRight = _wallBotLeft = _wallBotRight = 
                 _wallEndTop = _wallEndBot = _wallEndLeft = _wallEndRight = empty;
@@ -123,10 +124,10 @@ public class GameRenderer
    /// <summary>
     /// Clears the canvas and redraws the current state of the game based on the ViewModel data.
     /// </summary>
-    /// <param name="vm">The ViewModel containing the current positions and states of all game objects.</param>
-    public void Draw(GameViewModel vm)
+    /// <param name="viewModel">The ViewModel containing the current positions and states of all game objects.</param>
+    public void Draw(GameViewModel viewModel)
     {
-        if (vm is null)
+        if (viewModel is null)
         {
             return;
         }
@@ -135,7 +136,7 @@ public class GameRenderer
         _canvas.Background = Brushes.Black;
 
         var wallSet = new HashSet<(int, int)>();
-        foreach (var obj in vm.GameObjects)
+        foreach (var obj in viewModel.GameObjects)
         {
             if (obj is Wall)
             {
@@ -143,7 +144,7 @@ public class GameRenderer
             }
         }
 
-        foreach (var obj in vm.GameObjects)
+        foreach (var obj in viewModel.GameObjects)
         {
             Control? visual = null;
             double x = obj.X * TileSize;
@@ -152,16 +153,6 @@ public class GameRenderer
             switch (obj)
             {
                 case Wall w:
-                    if (w.Type == '=')
-                    {
-                        visual = new Image 
-                        { 
-                            Source = _ghostDoorImg, 
-                            Width = TileSize, 
-                            Height = TileSize 
-                        };
-                        break;
-                    }
                     IImage wallSprite = null;
 
                     switch (w.Type)
@@ -214,9 +205,17 @@ public class GameRenderer
                         };
                     }
                     break;
+                case GhostDoor:
+                    visual = new Image 
+                    { 
+                        Source = _ghostDoorImg, 
+                        Width = TileSize, 
+                        Height = TileSize 
+                    };
+                    break;
                 
                 case Pacman:
-                    IImage spriteToShow = vm.IsMouthOpen ? _pacmanOpen : _pacmanClosed;
+                    IImage spriteToShow = viewModel.IsMouthOpen ? _pacmanOpen : _pacmanClosed;
                     var pacImage = new Image 
                     { 
                         Source = spriteToShow, 
@@ -225,7 +224,7 @@ public class GameRenderer
                     };
 
                     double angle = 0;
-                    switch (vm.CurrentDirection)
+                    switch (viewModel.CurrentDirection)
                     {
                         case Direction.Right: angle = 0; break;
                         case Direction.Down:  angle = 90; break;
