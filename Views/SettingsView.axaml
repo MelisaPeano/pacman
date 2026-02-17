@@ -5,19 +5,100 @@
              x:DataType="vm:SettingsViewModel">
 
     <Grid Background="Black">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="30">
-            <TextBlock Text="SETTINGS" Foreground="White" FontSize="48" FontWeight="Bold" HorizontalAlignment="Center"/>
+        <StackPanel HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Spacing="25">
+            
+            <TextBlock Text="SETTINGS" 
+                       Foreground="White" 
+                       FontSize="48" 
+                       FontWeight="Bold" 
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,10"/>
+
+            <Border Background="#202020" 
+                    BorderBrush="Gray" 
+                    BorderThickness="2" 
+                    CornerRadius="10" 
+                    Padding="20">
+                
+                <StackPanel Spacing="15">
+                    <TextBlock Text="GAME CONTROLS" 
+                               Foreground="Yellow" 
+                               FontWeight="Bold" 
+                               FontSize="18" 
+                               HorizontalAlignment="Center"
+                               TextDecorations="Underline"/>
+
+                    <Grid ColumnDefinitions="*, Auto, *" Margin="0,10,0,0">
+                        
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center" Spacing="5">
+                            <TextBlock Text="ARROWS" Foreground="Gray" HorizontalAlignment="Center" FontSize="10"/>
+                            <Grid RowDefinitions="35,35" ColumnDefinitions="35,35,35">
+                                <Border Grid.Row="0" Grid.Column="1" Background="#404040" CornerRadius="5" Margin="2">
+                                    <TextBlock Text="↑" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Border>
+                                <Border Grid.Row="1" Grid.Column="0" Background="#404040" CornerRadius="5" Margin="2">
+                                    <TextBlock Text="←" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Border>
+                                <Border Grid.Row="1" Grid.Column="1" Background="#404040" CornerRadius="5" Margin="2">
+                                    <TextBlock Text="↓" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Border>
+                                <Border Grid.Row="1" Grid.Column="2" Background="#404040" CornerRadius="5" Margin="2">
+                                    <TextBlock Text="→" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+
+                        <TextBlock Grid.Column="1" Text="OR" Foreground="Gray" VerticalAlignment="Center" FontWeight="Bold" Margin="20,0"/>
+
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center" Spacing="5">
+                            <TextBlock Text="WASD" Foreground="Gray" HorizontalAlignment="Center" FontSize="10"/>
+                            <Grid RowDefinitions="35,35" ColumnDefinitions="35,35,35">
+                                <Border Grid.Row="0" Grid.Column="1" Background="#404040" CornerRadius="5" Margin="2">
+                                    <TextBlock Text="W" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Border>
+                                <Border Grid.Row="1" Grid.Column="0" Background="#404040" CornerRadius="5" Margin="2">
+                                    <TextBlock Text="A" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Border>
+                                <Border Grid.Row="1" Grid.Column="1" Background="#404040" CornerRadius="5" Margin="2">
+                                    <TextBlock Text="S" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Border>
+                                <Border Grid.Row="1" Grid.Column="2" Background="#404040" CornerRadius="5" Margin="2">
+                                    <TextBlock Text="D" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10" Margin="0,5,0,0">
+                         <Border Width="50" Height="25" Background="#404040" CornerRadius="5">
+                             <TextBlock Text="ESC" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="10"/>
+                         </Border>
+                         <TextBlock Text="= PAUSE / MENU" Foreground="Gray" VerticalAlignment="Center" FontSize="12"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
 
             <Button Content="CLEAR HIGH SCORES" 
                     Command="{Binding ClearHighScoresCommand}"
-                    Width="300" Height="50"
-                    Background="Red" Foreground="White" FontWeight="Bold"
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    Width="300" Height="45"
+                    Background="#8B0000" 
+                    Foreground="White" FontWeight="Bold"
+                    HorizontalContentAlignment="Center" 
+                    VerticalContentAlignment="Center"
+                    CornerRadius="5"
+                    Margin="0,10,0,0"/>
 
             <Button Content="BACK" 
                     Command="{Binding GoBackCommand}"
                     HorizontalAlignment="Center"
-                    Background="Transparent" Foreground="Gray" FontSize="20"/>
+                    Width="150"
+                    Background="Transparent" 
+                    Foreground="Gray" 
+                    FontSize="18"
+                    HorizontalContentAlignment="Center"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -12,12 +12,10 @@
                     VerticalAlignment="Center"
                     Spacing="20">
 
-            <TextBlock Text="PACMAN"
-                       Foreground="Yellow"
-                       FontSize="72"
-                       FontWeight="Black"
+                <Image Source="avares://PacmanAvalonia/Assets/PAC-MAN99_logo.jpg"
+                       Height="400" 
                        HorizontalAlignment="Center"
-                       Margin="0,0,0,20"/>
+                       Margin="0,0,0,0"/>
 
             <Button Content="STORY MODE"
                     Command="{Binding StartStoryModeCommand}"
