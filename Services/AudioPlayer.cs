@@ -16,6 +16,11 @@ public class AudioPlayer
     private readonly string _winPath;
     private readonly string _eatGhostPath;   
     private readonly string _powerPelletPath;
+    
+    /// <summary>
+    /// This property allows mute the game
+    /// </summary>
+    public static bool IsMuted { get; set; } = false;
 
     /// <summary>
     /// Initializes a new instance of the AudioPlayer class and preloads file paths.
@@ -96,7 +101,7 @@ public class AudioPlayer
 
     private void PlaySound(string path)
     {
-        if (!File.Exists(path))
+        if (!File.Exists(path) || IsMuted)
         {
             return;
         }

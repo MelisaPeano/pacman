@@ -1,3 +1,4 @@
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PacmanAvalonia.Services;
 
@@ -9,6 +10,9 @@ namespace PacmanAvalonia.ViewModels;
 public partial class SettingsViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _mainWindow;
+    
+    [ObservableProperty]
+    private bool _isSoundEnabled = !AudioPlayer.IsMuted;
 
     public SettingsViewModel(MainWindowViewModel mainWindow)
     {
@@ -31,5 +35,14 @@ public partial class SettingsViewModel : ViewModelBase
     public void GoBack()
     {
         _mainWindow.NavigateTo(new MainMenuViewModel(_mainWindow));
+    }
+    
+    partial void OnIsSoundEnabledChanged(bool value)
+    {
+        AudioPlayer.IsMuted = !value;
+        if (AudioPlayer.IsMuted)
+        {
+            new AudioPlayer().StopAll();
+        }
     }
 }

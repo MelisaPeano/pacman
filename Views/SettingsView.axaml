@@ -15,7 +15,30 @@
                        FontWeight="Bold" 
                        HorizontalAlignment="Center"
                        Margin="0,0,0,10"/>
+            <Border Background="#202020" 
+                    BorderBrush="Gray" 
+                    BorderThickness="2" 
+                    CornerRadius="10" 
+                    Padding="20">
+    
+                <Grid ColumnDefinitions="*, Auto">
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <TextBlock Text="GAME AUDIO" 
+                                   Foreground="White" 
+                                   FontSize="18" 
+                                   FontWeight="Bold"/>
+                        <TextBlock Text="Enable or disable sound effects" 
+                                   Foreground="Gray" 
+                                   FontSize="12"/>
+                    </StackPanel>
 
+                    <ToggleSwitch Grid.Column="1"
+                                  IsChecked="{Binding IsSoundEnabled}"
+                                  OnContent="ON"
+                                  OffContent="OFF"
+                                  Foreground="White"/>
+                </Grid>
+            </Border>
             <Border Background="#202020" 
                     BorderBrush="Gray" 
                     BorderThickness="2" 

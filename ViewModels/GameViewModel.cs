@@ -236,8 +236,15 @@ public partial class GameViewModel : ViewModelBase
 
     private void MoveGhosts()
     {
-        if (_areGhostsSlowed && _animationTick % 2 != 0) return;
-        if (!_areGhostsSlowed && !ShouldGhostsMoveByLevel()) return;
+        if (_areGhostsSlowed && _animationTick % 2 != 0)
+        {
+            return;
+        }
+
+        if (!_areGhostsSlowed && !ShouldGhostsMoveByLevel())
+        {
+            return;
+        }
 
         var ghostsToMove = GameObjects.OfType<Ghost>().Where(g => g.X >= 0).ToList();
 
@@ -388,7 +395,7 @@ public partial class GameViewModel : ViewModelBase
     }
 
     private void MoveGhostTowards(Ghost ghost, int targetX, int targetY)
-{
+    {
     var directions = new[] { Direction.Up, Direction.Down, Direction.Left, Direction.Right };
     
     var validMoves = new List<(Direction dir, int x, int y)>();
@@ -437,7 +444,7 @@ public partial class GameViewModel : ViewModelBase
         ghost.X = selectedMove.bestX;
         ghost.Y = selectedMove.bestY;
     }
-}
+    }
 
     private void UpdateGameSpeed()
     {
