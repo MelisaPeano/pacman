@@ -142,15 +142,7 @@ public class GameRenderer
 
         _canvas.Children.Clear();
         _canvas.Background = Brushes.Black;
-
-        var wallSet = new HashSet<(int, int)>();
-        foreach (var obj in viewModel.GameObjects)
-        {
-            if (obj is Wall)
-            {
-                wallSet.Add((obj.X, obj.Y));
-            }
-        }
+        
 
         foreach (var obj in viewModel.GameObjects)
         {
